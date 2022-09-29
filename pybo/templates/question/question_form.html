@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Register a question  -->
+
+
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+
+    <!-- ! action 지정 안하면, 자기 자신한테 전달  -->
+    <!-- ! 자기 자신이 http://127.0.0.1:5000/question/create -->
+    <!-- 자기 자신이 자기자신 route고  -->
+    <!-- action 지정안하면, 다른 모듈에서도 사용가능 -->
+    <form method="post" class="post-form my-3">
+        {{ form.csrf_token() }}
+        <!-- 오류표시 start -->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field, errors in form.errors.items() %}
+                <strong>{{ form[field].label }}</strong>
+                <ul>
+                    {% for error in errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- 오류표시 end -->
+        <div class="mb-3">
+            <label for="subject">제목</label>
+            <input type="text" name="subject" class="form-control" id="subject" value="{{ form.subject.data or '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="content">내용</label>
+            <textarea name="content" id="content" rows="10" class="form-control">{{ form.content.data or '' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
+
+{% endblock %}
